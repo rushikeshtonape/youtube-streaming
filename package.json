@@ -15,6 +15,7 @@
   "author": "Rushikesh Tonape",
   "license": "ISC",
   "devDependencies": {
+    "colors": "^1.4.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3"
   },

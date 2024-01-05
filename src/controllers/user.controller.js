@@ -4,11 +4,13 @@ import { ApiError } from "../utils/ApiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const RegisterUser = asyncHandler(async (req, res) => {
+  //get the data from the user
   const { username, email, fullName, password } = req.body;
   if (!username | !email | !fullName | !password) {
     throw new ApiError(400, "PLease Enter all the required fields");
   }
 
+  //Check if the user is already registered or not
   const existingUser = await User.findOne({
     $or: [{ username }, { email }],
   });
@@ -45,6 +47,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Something went wrong while registering user");
   }
 
+  //Return the successfully created responce
   return res
     .status(201)
     .json(new ApiResponse(200, createdUser, "User Registered Successfully"));

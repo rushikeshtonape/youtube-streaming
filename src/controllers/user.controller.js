@@ -2,6 +2,7 @@ import { User } from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 const RegisterUser = asyncHandler(async (req, res) => {
   //get the data from the user
@@ -19,7 +20,12 @@ const RegisterUser = asyncHandler(async (req, res) => {
   }
   //  Check for image and check for avatar
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  // const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+  let coverImageLocalPath;
+  if (req.files && Array.isArray(req.files && req.files.coverImage)) {
+    coverImageLocalPath = req.files.coverImage[0].path;
+  }
 
   if (!avatarLocalPath) {
     throw new ApiError(400, "avatar file is required");
@@ -39,6 +45,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
     password,
   });
 
+  // remove the password and refresh token from responce for security
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );

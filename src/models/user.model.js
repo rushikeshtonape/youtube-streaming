@@ -75,7 +75,7 @@ userSchema.methods.generateAccessToken = function () {
 };
 
 userSchema.methods.generateRefeshToken = function () {
-  jwt.sign(
+  return jwt.sign(
     {
       _id: this._id,
     },

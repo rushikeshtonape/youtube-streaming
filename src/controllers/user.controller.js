@@ -214,7 +214,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
   if (!isPasswordCorrect) {
-    throw new ApiError(401, "Please enter correct passord");
+    throw new ApiError(400, "Please enter correct passord");
   }
 
   user.password = newPassword;
@@ -222,7 +222,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "Password Changed Succefully"));
+    .json(new ApiResponse(200, {}, "Password Changed Succefully"));
 });
 
 export { RegisterUser, loginUser, logoutUser, refreshAccessToken };
